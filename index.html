@@ -1,0 +1,66 @@
+<html>
+	<head>
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.2/underscore-min.js"></script>
+		<script type=>
+
+			function prepare(){
+
+				arrayOfLines = _.shuffle($('#palabras').val().split('\n'));
+				i = 0;
+			    
+
+			    var initialPrev = new SpeechSynthesisUtterance("Iniciando");
+			    $("#max").html(arrayOfLines.length);
+			}
+			
+			function talk() {
+				var voices = window.speechSynthesis.getVoices();
+				var palabra = arrayOfLines[i];
+				i++;
+
+                var text = new SpeechSynthesisUtterance(palabra);
+				text.voice = voices[3];	
+				window.speechSynthesis.speak(text);
+				if (i == arrayOfLines.length) {
+			    			i = 0;
+			    }		
+			    $("#pos").html(i);		
+			    
+			}
+			$('#myTab a').click(function (e) {
+			  e.preventDefault()
+			  $(this).tab('show')
+			});
+		</script>
+		<h1>Dictainador</h1>
+		<div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Preparar</a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Dictar</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home">
+		<p>Escriba las palabras</p>
+		<p><textarea type="text" id="palabras" rows = "5" cols="40" ></textarea></p>
+		<button onclick="prepare()">Preparar</button>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="profile">
+    	<p>Cantidad de Palabras: <span id="max"></span><p>
+    	<p>Posicion Actual: <span id="pos"></span></p>
+ 		<button onclick="talk()">Dictar</button>
+    </div>
+  </div>
+
+</div>
+	</body>
+</html>
